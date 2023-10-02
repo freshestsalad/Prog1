@@ -37,13 +37,13 @@ print(":) " * 20 + "\n" + "Sten, Papper, Sax" + "\n" + ":) " * 20)      #Printar
 while True:
     try:
         scoreLimit = int(input("Hur många poäng vinner man med? (OBS: Ange ett positivt heltal! "))           #Definierar poänggränsen beroende på användarens input, samt kontrollerar att inputen är ett positivt heltal
-        break
     except ValueError: 
         continue
+    if scoreLimit < 1:
+        continue
+    else:
+        break
 
-while scoreLimit <= 0:
-    scoreLimit = int(input("Ange ett positivt heltal! "))
-    
 print("Gränsen är: " + str(scoreLimit))
 
 
