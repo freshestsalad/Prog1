@@ -9,6 +9,7 @@ winMsg = "Du vann! "
 lossMsg = "Datorn vann! "                                       #winMsg, drawnsg och lossMsg definierar vad programet skriver ut efter varje runda
 drawMsg = "Oavgjort! "
 
+
 def checkResults(user,computer):                                #Definierar en funktion som kontrollerar resultatet och returnerar vinnaren som en sträng
     if computer == "Sten" and user == "Papper":
         return("usr")
@@ -29,12 +30,20 @@ def checkResults(user,computer):                                #Definierar en f
     elif computer == "Sax" and user == "Sax":
         return("draw")
 
+
 print(":) " * 20 + "\n" + "Sten, Papper, Sax" + "\n" + ":) " * 20)      #Printar en skojig rubrik
 
-try:
-    scoreLimit = int(input("Hur många poäng vinner man med? "))           #Definierar poänggränsen beroende på användarens input, samt kontrollerar att inputen är ett heltal
-except ValueError: 
-    scoreLimit = int(input("Ange ett heltal! "))
+
+while True:
+    try:
+        scoreLimit = int(input("Hur många poäng vinner man med? (OBS: Ange ett positivt heltal! "))           #Definierar poänggränsen beroende på användarens input, samt kontrollerar att inputen är ett positivt heltal
+        break
+    except ValueError: 
+        continue
+
+while scoreLimit <= 0:
+    scoreLimit = int(input("Ange ett positivt heltal! "))
+    
 print("Gränsen är: " + str(scoreLimit))
 
 
