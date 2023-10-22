@@ -51,15 +51,17 @@ def svara(bekymmer):                                            #definierar funk
 
 while True:                                                     #while loop som tar hand om input och att printa ut svaret
     grievance = (input("\n>"))                                      #definierar variabeln grievance som användarens input
-    while len(grievance) < 1 or grievance == " ":
+
+    while len(grievance) < 1 or grievance == " ":                   #while loop som kontrollerar att inputen inte är en tom sträng eller bara ett mellanrum
         grievance = input("säg något\n>")
-    log(grievance)
+
+    log(grievance)                                                  #lägger till inputen i logg-filen
 
     if grievance in slut:                                           #kontrollerar om inputen är något av orden i listan "slut", och avbryter while loopen om den är det
         break
     
     svar = svara(grievance)                                         #anropar svara(bekymmer) funktionen och sparar returnerade strängen i variabeln svar
     print (svar)                                                    #printar svaret
-    log(svar)                                              #sparar en loggfil av svaren
+    log(svar)                                              #sparar svaret i logg-filen
 
 print("Tack för besöket. Betala in 150 EUR på mitt konto. Ha det bra!")     #printar en tack-hälsning efter att while loopen blivit avbruten
