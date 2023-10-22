@@ -3,13 +3,13 @@ import random
 from loggning import log
 
 posSvar = ["Berätta mer","Jag förstår...","Ahaa...","Jag lyssnar..."]                   #definierar listan posSvar som innehåller positiva svar
-negSvar = ["Varför är du på så dåligt humör?", "inte det?", "Är du helt säker?", "Är det sant?",    #definierar listan negSvar som innehåller svar på negativa satser
-"varför inte?", "vad gör dig så negativ?"]
+negSvar = ["Varför är du på så dåligt humör?", "Inte det?", "Är du helt säker?", "Är det sant?",    #definierar listan negSvar som innehåller svar på negativa satser
+"Varför inte?", "Vad gör dig så negativ?"]
 famSvar = ["Gör din kusin också så?", "Är din syster likadan?", "Hur är det med din bror då?", "Hurudan är din faster då?"]
 
 slut = ["hejs svejs", "tack och gonatt", "Sluta!", "OK, that does it!", "hejdå!", "nu räcker det!"]       #definierar listan slut som innehåller fraser som avslutar programmet
 negativ = ["nej", "aldrig", "inte"]                                                     #definierar listan negativ som innehåller negativa satser som ska sökas
-familj = ["mamma", "pappa"]
+familj = ["mamma", "mor", "morsa", "pappa", "far", "farsa"]
 
 Placeholder = {"du" : "ja9", "din" : "m1n", "ditt" : "m1tt", "dig" : "m1g", "dina" : "m1na"}    #definierar en dictionary "Placeholder" som innehåller ord i andra person och vad de ska ändras till, ändrar dem till "leetspeak" så att de inte blir ändrade tillbaka i nästa steg 
 Replace = {
@@ -32,32 +32,32 @@ def svara(bekymmer):                                            #definierar funk
     text = bekymmer                                                 #definierar variabeln "text" som strängen som ges som parameter
     text = text.lower()                                             #kopierar strängen och ändrar alla bokstäver till små bokstäver, och definierar variabeln till den nya strängen
 
-    if any(word in bekymmer for word in negativ):                   #granskar om strängen innehåller negativa satser, och ifall den gör det returnerar ett slumpmässigt svar från listan negSvar
-        return(random.choice(negSvar))
-    elif any (word in bekymmer for word in familj):                 #granskar om strängen innehåller orden mamma eller pappa, och returnerar isåfall ett slumpmässigt svar från listan famSvar
-        return(random.choice(famSvar))
-
     for word, replacement in Placeholder.items():                   #ersätter alla ord i andra person till ord i första person skrivna med "leetspeak", enligt dictionaryn Placeholder
         text = text.replace(word, replacement)
-    
     for word, replacement in Replace.items():                       #ersätter alla ord i första person till andra person, samt ersätter alla "leetspeak" ord med deras korrekta stavning, enligt dictionaryn Replace
         text = text.replace(word, replacement)
 
-    if text == bekymmer:                                            #granskar om strängen har ändrats, ifall den inte har ändrats returneras ett slumpmässigt positivt svar från listan posSvar
+    if any(word in bekymmer.lower() for word in familj) or text in familj:                 #granskar om strängen innehåller orden mamma eller pappa, och returnerar isåfall ett slumpmässigt svar från listan famSvar
+        return random.choice(famSvar)
+    elif any(word in bekymmer.lower() for word in negativ) or text in negativ:             #granskar om strängen innehåller negativa satser, och ifall den gör det returnerar ett slumpmässigt svar från listan negSvar
+        return(random.choice(negSvar))
+    elif text == bekymmer.lower():                                                         #granskar om strängen har ändrats, ifall den inte har ändrats returneras ett slumpmässigt positivt svar från listan posSvar
         return(random.choice(posSvar))
-    else:
-        return(text+"?")                                            #ifall strängen har ändrats, och inte innehåller negativa satser, returneras den ändrade strängen med ett frågetecken på slutet
+    else:                                                                                  #ifall strängen har ändrats, och inte innehåller negativa satser, returneras den ändrade strängen med ett frågetecken på slutet
+        return(text.capitalize() + "?")
 
 
-while True:                                                     #while loop som tar hand om input och att printa ut svaret
-    grievance = (input("\n>"))                                      #definierar variabeln grievance som användarens input
-
-    while len(grievance) < 1 or grievance == " ":                   #while loop som kontrollerar att inputen inte är en tom sträng eller bara ett mellanrum
-        grievance = input("säg något\n>")
+while True:                                                     #while loop som tar hand om input och att printa ut svaret    
+    while True:                                                 #while loop som kontrollerar att inputen inte är en tom sträng eller bara ett mellanrum
+        grievance = (input("\n>"))                              #definierar variabeln grievance som användarens input
+        if grievance.strip() == "":                             #Inmatade meddelandet måste innehålla tecken, som inte endast är mellanslag
+            print("Säg något" + "\n")
+        else:
+            break
 
     log(grievance)                                                  #lägger till inputen i logg-filen
 
-    if grievance in slut:                                           #kontrollerar om inputen är något av orden i listan "slut", och avbryter while loopen om den är det
+    if grievance.lower() in [x.lower() for x in slut]:              #kontrollerar om inputen är något av orden i listan "slut", och avbryter while loopen om den är det
         break
     
     svar = svara(grievance)                                         #anropar svara(bekymmer) funktionen och sparar returnerade strängen i variabeln svar
